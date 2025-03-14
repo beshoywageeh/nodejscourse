@@ -1,11 +1,14 @@
 const express = require("express");
+const methodOverride = require("method-override");
 const app = express();
 const port = 3000;
 const mongoose = require("mongoose");
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static("public"));
+app.use(methodOverride("_method"));
 const path = require("path");
+const moment = require("moment");
 const livereload = require("livereload");
 const liveReloadServer = livereload.createServer();
 liveReloadServer.watch(path.join(__dirname, "public"));
@@ -23,7 +26,7 @@ app.get("/", (req, res) => {
   money_treas
     .find()
     .then((result) => {
-      res.render("home", { title: "Home", data: result });
+      res.render("home", { title: "Home", data: result, moment: moment });
     })
     .catch((err) => {
       console.log(err);
@@ -32,14 +35,53 @@ app.get("/", (req, res) => {
 app.get("/add", (req, res) => {
   res.render("user/add", { title: "Add Record" });
 });
-app.get("/view", (req, res) => {
-  res.render("user/view");
+app.get("/view/:id", (req, res) => {
+  money_treas
+    .findById(req.params.id)
+    .then((result) => {
+      res.render("user/view", {
+        data: result,
+        title: "View Record",
+        moment: moment,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
-app.get("/edit", (req, res) => {
-  res.render("user/edit");
+app.get("/edit/:id", (req, res) => {
+  money_treas
+    .findById(req.params.id)
+    .then((result) => {
+      res.render("user/edit", {
+        data: result,
+        title: "Edit Record",
+        moment: moment,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
-app.get("/delete", (req, res) => {
-  res.render("user/delete");
+app.put("/update/:id", (req, res) => {
+  money_treas
+    .findByIdAndUpdate({ _id: req.params.id }, req.body)
+    .then((result) => {
+      res.redirect("/");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+app.delete("/delete/:id", (req, res) => {
+  money_treas
+    .deleteOne({ _id: req.params.id })
+    .then((result) => {
+      res.redirect("/");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 app.get("/search", (req, res) => {
   res.render("user/search");
