@@ -32,10 +32,11 @@
       <div class="b-example-divider b-example-vr"></div>
 
       <section class="w-100">
-        <%- include('./components/nabar.ejs') %>
-<% } else "<h1>لا يوجد بيناتا للعرض</h1>" if ({:condition}) { %>
- 
-        <table
+        <%- include('./components/nabar.ejs') %> <% if (data.length===0) { %>
+        <h1 class="text-center mt-5">لا بيانات للعرض</h1>
+        <% } %>
+        <% if (data.length>0) { %>
+          <table
           style="width: 99%"
           class="text-center mx-auto table mt-5 table-striped table-bordered"
         >
@@ -89,7 +90,8 @@
                 >
                   <i class="bi bi-pencil"></i>
                 </a>
-                <form style="display:inline"
+                <form
+                  style="display: inline"
                   method="POSt"
                   action="/delete/<%= record.id %>?_method=DELETE"
                 >
@@ -107,6 +109,8 @@
             <% }) %>
           </tbody>
         </table>
+        <% } %>
+        
       </section>
     </main>
     <script src="./js/bootstrap.bundle.min.js"></script>

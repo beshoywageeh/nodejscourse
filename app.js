@@ -83,8 +83,23 @@ app.delete("/delete/:id", (req, res) => {
       console.log(err);
     });
 });
-app.get("/search", (req, res) => {
-  res.render("user/search");
+app.post("/search", (req, res) => {
+  money_treas
+    .find({
+      $or: [
+        { description: { $regex: req.body.search, $options: "i" } },
+        { amount: Number(req.body.search) || 0 },
+      ],
+    })
+    .then((result) => {
+      console.log(result);
+      res.render("user/search", {
+        data: result,
+        moment: moment,
+        title: "Search",
+      });
+    })
+    .catch((err) => console.log(err));
 });
 app.post("/add_record", (req, res) => {
   const { status, description, amount, date } = req.body;
