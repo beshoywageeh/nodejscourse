@@ -3,97 +3,62 @@
   <head>
     <script src="../js/color-modes.js"></script>
     <%- include('../components/styles.ejs') %>
-
   </head>
   <body>
     <%- include('../components/theme_toogle.ejs') %>
 
-
     <main class="d-flex flex-nowrap">
       <%- include('../components/sidebar.ejs',{currentPage:'add_record'}) %>
-
 
       <div class="b-example-divider b-example-vr"></div>
 
       <section class="w-100">
         <%- include('../components/nabar.ejs') %>
 
-        <form class="mx-0 row gx-3 gy-4 mt-3" action="/add" method="POST">
-          <div class="col-md-6">
-            <label for="inputfirstName4" class="form-label">First Name:</label>
-            <input name="name"
-              placeholder="Ali..."
-              type="text"
-              class="form-control"
-              id="inputfirstName4"
-            />
+        <form class="mx-0 row gx-3 gy-4 mt-3" action="/add_record" method="POST">
+          <div class="col-md-6 mb-3">
+            <label for="status" class="form-label">الحالى</label>
+           <select class="form-select" name="status" id="">
+            <option value="0">داخل</option>
+            <option value="1">خارج</option>
+           </select>
           </div>
-          <div class="col-md-6">
-            <label for="inputlastName4" class="form-label">Last Name:</label>
+
+          <div class="col-md-6 mb-3">
+            <label for="description" class="form-label">الوصف</label>
             <input
-              placeholder="Hassan..."
               type="text"
               class="form-control"
-              id="inputlastName4"
+              id="description"
+              name="description"
+              required
             />
           </div>
 
-          <div class="col-md-6">
-            <label for="inputemail4" class="form-label">Email:</label>
+          <div class="col-md-6 mb-3">
+            <label for="amount" class="form-label">القيمة</label>
             <input
-              placeholder="ali@gmail.com"
-              type="email"
-              class="form-control"
-              id="inputemail4"
-            />
-          </div>
-          <div class="col-md-6">
-            <label for="inputtele4" class="form-label">Telephone:</label>
-            <input
-              placeholder="011987899"
               type="number"
               class="form-control"
-              id="inputtele4"
+              id="amount"
+              name="amount"
+              required
             />
           </div>
 
-          <div>
-            <div class="col-md-6">
-              <label for="inputage4" class="form-label">Age:</label>
-              <input
-                placeholder="Your Age: ..."
-                type="number"
-                class="form-control"
-                id="inputage4"
-              />
-            </div>
-          </div>
-
-          <div>
-            <div class="col-md-6">
-              <label for="inputCountry" class="form-label">Country:</label>
-              <select id="inputCountry" class="form-select">
-                <option selected hidden disabled>Choose here ...</option>
-
-                <option>Morocco</option>
-                <option>Egypt</option>
-              </select>
-            </div>
-          </div>
-
-          <div>
-            <div class="col-md-6">
-              <label for="inputGender" class="form-label">Gender:</label>
-              <select id="inputGender" class="form-select">
-                <option selected hidden disabled>Choose here ...</option>
-                <option>Male</option>
-                <option>Female</option>
-              </select>
-            </div>
+          <div class="col-md-6 mb-3">
+            <label for="date" class="form-label">التاريخ</label>
+            <input
+              type="date"
+              class="form-control"
+              id="date"
+              name="date"
+              required
+            />
           </div>
 
           <div class="col-12">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">حفظ</button>
           </div>
         </form>
       </section>

@@ -18,12 +18,19 @@ liveReloadServer.server.once("connection", () => {
     liveReloadServer.refresh("/");
   }, 100);
 });
-const data = require("./models/dataSchema");
+const money_treas = require("./models/money_treasSchema");
 app.get("/", (req, res) => {
-  res.render("home");
+  money_treas
+    .find()
+    .then((result) => {
+      res.render("home", { title: "Home", data: result });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 app.get("/add", (req, res) => {
-  res.render("user/add");
+  res.render("user/add", { title: "Add Record" });
 });
 app.get("/view", (req, res) => {
   res.render("user/view");
@@ -36,6 +43,22 @@ app.get("/delete", (req, res) => {
 });
 app.get("/search", (req, res) => {
   res.render("user/search");
+});
+app.post("/add_record", (req, res) => {
+  const { status, description, amount, date } = req.body;
+  const addData = new money_treas({
+    status: status,
+    description: description,
+    amount: amount,
+    date: date,
+  })
+    .save()
+    .then(() => {
+      res.redirect("/");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 mongoose
   .connect(
